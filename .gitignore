@@ -419,3 +419,6 @@ vendor
 # End of https://www.toptal.com/developers/gitignore/api/windows,macos,intellij,reactnative,firebase
 
 release.keystore
+
+.env.dev
+.env.prod

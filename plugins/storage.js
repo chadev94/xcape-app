@@ -19,7 +19,7 @@ export const getItem = async key => {
 
 export const hasInitialData = async () => {
   const length = (await AsyncStorage.getAllKeys()).length;
-  return length !== 0;
+  return length === 5;
 };
 
 export const hasKeys = async () => {

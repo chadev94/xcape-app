@@ -17,7 +17,7 @@ export const writeTag = async tagId => {
     await NfcManager.requestTechnology(NfcTech.Ndef);
     const bytes = Ndef.encodeMessage([
       Ndef.textRecord(JSON.stringify(tagId)),
-      Ndef.androidApplicationRecord('com.chadev.xcape'),
+      Ndef.androidApplicationRecord('com.xcape.app'),
     ]);
     if (bytes) {
       await NfcManager.ndefHandler.writeNdefMessage(bytes);
