@@ -47,6 +47,8 @@ export default function Home({navigation}) {
                 setLoading(false);
                 return {...currentTheme, ...theme};
               });
+            } else {
+              setLoading(false);
             }
           });
         });

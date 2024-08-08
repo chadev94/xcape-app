@@ -12,6 +12,7 @@ import {
 } from '../atoms';
 import {useInitialLoading} from '../context/InitialLoadingContext';
 import {Colors} from '../Colors';
+import Config from 'react-native-config';
 
 const Download = ({navigation}) => {
   const setMerchantList = useSetRecoilState(merchantListState);
@@ -31,7 +32,10 @@ const Download = ({navigation}) => {
       setViewList,
     )
       .then(() => {
-        ToastAndroid.show('리소스 다운로드 성공!', ToastAndroid.SHORT);
+        ToastAndroid.show(
+          Config.ENV + '리소스 다운로드 성공!',
+          ToastAndroid.SHORT,
+        );
         navigation.navigate('Home');
         setLoading(false);
       })
