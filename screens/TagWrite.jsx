@@ -9,7 +9,7 @@ const TagWrite = ({navigation}) => {
   return (
     <List
       list={merchantList}
-      displayName={'name'}
+      displayName={'displayName'}
       onPress={value => {
         navigation.push('ThemeSelect', {merchantId: value});
       }}
