@@ -65,18 +65,24 @@ const ThemeSetting = ({navigation}) => {
           });
 
           const value = {
-            ...currentTheme,
             id: currentThemeId,
             merchantId: currentMerchantId,
             nameKo: findTheme.nameKo,
             runningTime,
             tagList: tagListByThemeId,
             usedTagIdList,
+            isPlaying: false,
+            hintCount: 0,
+            progress: 0,
           };
 
-          setValue(`/gameStatus/theme-${currentThemeId}`, value).then(() => {
-            navigation.navigate('Home');
-          });
+          setValue(`/gameStatus/theme-${currentThemeId}`, value)
+            .then(() => {
+              return setItem('themeId', currentThemeId.toString());
+            })
+            .then(() => {
+              navigation.navigate('Home');
+            });
           setCurrentTheme({...value});
         }
       });
