@@ -117,8 +117,11 @@ const Controller = () => {
             {currentTheme?.nameKo || '테마를 선택해주세요.'}
           </PretendardText>
           <PretendardText style={styles.startDate}>
-            {formatDate(new Date(currentTheme?.startDate)) ||
-              formatDate(new Date())}
+            {formatDate(
+              isNaN(new Date(currentTheme?.startDate))
+                ? new Date()
+                : new Date(currentTheme?.startDate),
+            )}
           </PretendardText>
         </View>
       </View>
