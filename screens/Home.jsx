@@ -19,6 +19,7 @@ import TagModal from '../components/TagModal';
 import PasswordModal from '../components/PasswordModal';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useInitialLoading} from '../context/InitialLoadingContext';
+import Header from '../components/Header';
 
 export default function Home({navigation}) {
   const [currentTheme, setCurrentTheme] = useRecoilState(currentThemeState);

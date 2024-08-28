@@ -32,16 +32,11 @@ function App(): JSX.Element {
       <InitialLoadingProvider>
         <TagModalProvider>
           <PasswordModalProvider>
+            <Header />
             <NavigationContainer>
               <Stack.Navigator
                 initialRouteName={'Home'}
-                screenOptions={{
-                  header: ({route}) => {
-                    if (route.name === 'Home' || route.name === 'TagView') {
-                      return <Header />;
-                    }
-                  },
-                }}>
+                screenOptions={{headerShown: false}}>
                 <Stack.Screen name={'Home'} component={Home} />
                 <Stack.Screen name={'TagView'} component={TagView} />
                 <Stack.Screen name={'Download'} component={Download} />

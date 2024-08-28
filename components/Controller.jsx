@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {Colors} from '../Colors';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {currentThemeState, viewListState} from '../atoms';
+import {currentThemeState, tagListState, viewListState} from '../atoms';
 import {setValue} from '../plugins/firebase';
 import {useTagModal} from '../context/TagModalContext';
 import MenuIcon from './icons/MenuIcon';
@@ -26,6 +26,7 @@ const Controller = () => {
   const navigation = useNavigation();
 
   const [currentTheme, setCurrentTheme] = useRecoilState(currentThemeState);
+  const tagList = useRecoilValue(tagListState);
   const viewList = useRecoilValue(viewListState);
 
   const {openTagModal, closeTagModal} = useTagModal();
@@ -61,9 +62,9 @@ const Controller = () => {
 
   const getViewListByTagId = tagId => {
     if (tagId && typeof tagId === 'number') {
-      const hasTagId = currentTheme.tagList.some(
-        currentTag => currentTag.id === tagId,
-      );
+      const hasTagId = tagList
+        .filter(tag => tag.themeId === currentTheme.id)
+        .some(currentTag => currentTag.id === tagId);
 
       if (hasTagId) {
         const viewListByTagId = viewList

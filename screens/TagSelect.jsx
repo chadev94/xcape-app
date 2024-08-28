@@ -1,8 +1,8 @@
 import React from 'react';
 
-import {StyleSheet, ScrollView, View} from 'react-native';
+import {StyleSheet, ScrollView, View, ToastAndroid} from 'react-native';
 import {useRecoilValue} from 'recoil';
-import {tagListState, viewListState} from '../atoms';
+import {tagListState, themeListState, viewListState} from '../atoms';
 import {useTagModal} from '../context/TagModalContext';
 import {writeTag} from '../plugins/nfc';
 import List from '../components/List';
@@ -14,6 +14,8 @@ const TagSelect = ({route}) => {
   const viewList = useRecoilValue(viewListState);
   const navigation = useNavigation();
 
+  const themeList = useRecoilValue(themeListState);
+
   const tagListByThemeId = tagList
     .filter(tag => tag.themeId === route.params.themeId)
     .sort((a, b) => a.name.localeCompare(b.name));
@@ -21,8 +23,17 @@ const TagSelect = ({route}) => {
   const {openTagModal, closeTagModal} = useTagModal();
 
   const writeTagId = tagId => {
+    const selectedTheme = themeList.find(
+      theme => theme.id === route.params.themeId,
+    );
+    const selectedTag = tagListByThemeId.find(tag => tag.id === tagId);
+
     openTagModal();
     writeTag(tagId).then(() => {
+      ToastAndroid.show(
+        `"${selectedTheme.nameKo}"의 "${selectedTag.name}"을 입력했습니다.`,
+        ToastAndroid.SHORT,
+      );
       closeTagModal();
     });
   };
