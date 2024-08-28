@@ -35,7 +35,7 @@ const PasswordModal = () => {
 
   const resetGame = () => {
     if (currentTheme.id > 0 && currentTheme.merchantId > 0) {
-      const resetUsedTagList = currentTheme.usedTagIdList.map(({id}) => {
+      const resetUsedTagList = currentTheme.usedTagIdList?.map(({id}) => {
         return {id, isUsed: false};
       });
 

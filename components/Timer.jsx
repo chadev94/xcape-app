@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {useRecoilValue} from 'recoil';
 import {currentThemeState} from '../atoms';
 import {Colors} from '../Colors';
@@ -10,16 +10,15 @@ let interval = null;
 
 const Timer = () => {
   const currentTheme = useRecoilValue(currentThemeState);
-  const [remainTime, setRemainTime] = useState(70 * 1000 * 60);
+  const [remainTime, setRemainTime] = useState(50 * 1000 * 60);
 
   useEffect(() => {
     if (currentTheme.isPlaying) {
       interval = setInterval(() => {
-        setRemainTime(currentTheme.endTime - new Date().getTime());
+        setRemainTime(() => currentTheme.endTime - new Date().getTime());
       }, 10);
     } else {
-      clearInterval(interval);
-      setRemainTime(currentTheme.runningTime * 60 * 1000);
+      setRemainTime(() => currentTheme.runningTime * 60 * 1000);
     }
 
     return () => clearInterval(interval);

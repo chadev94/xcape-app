@@ -48,6 +48,9 @@ const ThemeSetting = ({navigation}) => {
   const saveThemeInfo = () => {
     if (!!currentMerchantId && !!currentThemeId && runningTime > 0) {
       const findTheme = themeList.find(theme => theme.id === currentThemeId);
+      const tagListByThemeId = tagList.filter(
+        tag => tag.themeId === currentThemeId,
+      );
 
       getValue(`/gameStatus/theme-${currentThemeId}`).then(theme => {
         if (theme) {
@@ -56,10 +59,6 @@ const ThemeSetting = ({navigation}) => {
             navigation.navigate('Home');
           });
         } else {
-          const tagListByThemeId = tagList.filter(
-            tag => tag.themeId === currentThemeId,
-          );
-
           const usedTagIdList = tagListByThemeId.map(tag => {
             return {id: tag.id, isUsed: false};
           });
@@ -69,7 +68,6 @@ const ThemeSetting = ({navigation}) => {
             merchantId: currentMerchantId,
             nameKo: findTheme.nameKo,
             runningTime,
-            tagList: tagListByThemeId,
             usedTagIdList,
             isPlaying: false,
             hintCount: 0,
@@ -191,7 +189,9 @@ const ThemeSetting = ({navigation}) => {
           ).then(() => setSynchronizing(false));
         }}>
         <View style={{flexDirection: 'row'}}>
-          <PretendardText style={styles.buttonText}>힌트 동기화</PretendardText>
+          <PretendardText style={styles.buttonText}>
+            설정 업데이트
+          </PretendardText>
           {synchronizing ? <ActivityIndicator /> : <></>}
         </View>
       </TouchableOpacity>

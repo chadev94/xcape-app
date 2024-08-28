@@ -1,16 +1,18 @@
 import {ScrollView} from 'react-native';
 import React, {useEffect} from 'react';
-import {useRecoilState} from 'recoil';
-import {currentThemeState} from '../atoms';
+import {useRecoilState, useRecoilValue} from 'recoil';
+import {currentThemeState, tagListState} from '../atoms';
 import {setValue} from '../plugins/firebase';
 import {useInitialLoading} from '../context/InitialLoadingContext';
 import {ViewType} from '../ViewType';
+import Header from '../components/Header';
 
 const TagView = props => {
   const {viewList} = props.route.params;
   const tagId = viewList[0].tagId;
 
   const [currentTheme, setCurrentTheme] = useRecoilState(currentThemeState);
+  const tagList = useRecoilValue(tagListState);
   const {setLoading} = useInitialLoading();
 
   useEffect(() => {
@@ -23,8 +25,12 @@ const TagView = props => {
         tag.id === tagId ? {...tag, isUsed: true} : tag,
       );
 
+      const tagListByThemeId = tagList.filter(
+        tag => tag.themeId === currentTheme.id,
+      );
+
       const hintCount = newUsedTagIdList.filter(tag => tag.isUsed).length;
-      const progress = (hintCount / currentTheme.tagList.length) * 100;
+      const progress = (hintCount / tagListByThemeId.length) * 100;
 
       const newThemeValue = {
         ...currentTheme,
