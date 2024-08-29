@@ -5,7 +5,6 @@ import {currentThemeState, tagListState} from '../atoms';
 import {setValue} from '../plugins/firebase';
 import {useInitialLoading} from '../context/InitialLoadingContext';
 import {ViewType} from '../ViewType';
-import Header from '../components/Header';
 
 const TagView = props => {
   const {viewList} = props.route.params;
@@ -29,14 +28,14 @@ const TagView = props => {
         tag => tag.themeId === currentTheme.id,
       );
 
-      const hintCount = newUsedTagIdList.filter(tag => tag.isUsed).length;
-      const progress = (hintCount / tagListByThemeId.length) * 100;
+      const usedTagList = newUsedTagIdList.filter(tag => tag.isUsed);
+      const progress = (usedTagList.length / tagListByThemeId.length) * 100;
 
       const newThemeValue = {
         ...currentTheme,
         usedTagIdList: newUsedTagIdList,
         progress,
-        hintCount,
+        // hintCount,
       };
       setCurrentTheme({...newThemeValue});
       setValue(`/gameStatus/theme-${currentTheme.id}`, newThemeValue);
@@ -60,6 +59,7 @@ const TagView = props => {
             url={url}
             message1={message1}
             message2={message2}
+            isPreivew={false}
           />
         );
       })}

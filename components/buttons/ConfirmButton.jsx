@@ -18,8 +18,8 @@ export default ConfirmButton;
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 12,
-    paddingHorizontal: 48,
+    paddingVertical: 8,
+    paddingHorizontal: 32,
     backgroundColor: Colors.primary,
   },
 });

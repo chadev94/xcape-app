@@ -25,8 +25,6 @@ import {setItem} from '../plugins/storage';
 import {Colors} from '../Colors';
 import PretendardText from '../components/PretendardText';
 
-const defaultTime = 50;
-
 const ThemeSetting = ({navigation}) => {
   const [merchantList, setMerchantList] = useRecoilState(merchantListState);
   const [themeList, setThemeList] = useRecoilState(themeListState);
@@ -35,7 +33,7 @@ const ThemeSetting = ({navigation}) => {
   const [currentMerchantId, setCurrentMerchantId] = useState();
   const [currentThemeId, setCurrentThemeId] = useState();
 
-  const [runningTime, setRunningTime] = useState(defaultTime);
+  const [runningTime, setRunningTime] = useState(70);
 
   const [synchronizing, setSynchronizing] = useState(false);
 
@@ -51,6 +49,8 @@ const ThemeSetting = ({navigation}) => {
       const tagListByThemeId = tagList.filter(
         tag => tag.themeId === currentThemeId,
       );
+
+      // const hintListByThemeId = viewList.map(view => view.type === 'HINT' &&);
 
       getValue(`/gameStatus/theme-${currentThemeId}`).then(theme => {
         if (theme) {
@@ -68,10 +68,10 @@ const ThemeSetting = ({navigation}) => {
             merchantId: currentMerchantId,
             nameKo: findTheme.nameKo,
             runningTime,
-            usedTagIdList,
             isPlaying: false,
             hintCount: 0,
             progress: 0,
+            usedTagIdList,
           };
 
           setValue(`/gameStatus/theme-${currentThemeId}`, value)
@@ -160,7 +160,7 @@ const ThemeSetting = ({navigation}) => {
             <TextInput
               style={styles.timeInput}
               onChangeText={time => setRunningTime(parseInt(time, 10))}
-              defaultValue={defaultTime.toString()}
+              defaultValue={runningTime.toString()}
               inputMode="decimal"
               keyboardType="numeric"
               placeholder={'분 단위'}

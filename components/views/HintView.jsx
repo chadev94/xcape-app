@@ -3,14 +3,31 @@ import React, {useState} from 'react';
 import {Image, Pressable, StyleSheet, View} from 'react-native';
 import {Colors} from '../../Colors';
 import PretendardText from '../PretendardText';
+import {setValue} from '../../plugins/firebase';
+import {useRecoilState} from 'recoil';
+import {currentThemeState} from '../../atoms';
 
-const HintView = ({message1, message2}) => {
+const HintView = ({message1, message2, isPreview}) => {
   const [active, setActive] = useState(false);
   const [messageVisible, setMessageVisible] = useState(false);
 
+  const [currentTheme, setCurrentTheme] = useRecoilState(currentThemeState);
+
+  const hintOnPress = () => {
+    if (!active && !isPreview) {
+      const newThemeValue = {
+        ...currentTheme,
+        hintCount: currentTheme.hintCount + 1,
+      };
+      setCurrentTheme({...newThemeValue});
+      setValue(`/gameStatus/theme-${currentTheme.id}`, newThemeValue);
+    }
+    setActive(true);
+  };
+
   return (
     <View style={styles.container}>
-      <Pressable style={styles.question} onPress={() => setActive(true)}>
+      <Pressable style={styles.question} onPress={() => hintOnPress()}>
         <PretendardText style={styles.questionMark}>?</PretendardText>
       </Pressable>
       {!active ? (
