@@ -62,26 +62,16 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
   },
   inputContainer: {
-    width: '60%',
+    width: '65%',
     paddingHorizontal: 4,
   },
   input: {
     backgroundColor: Colors.white,
     color: Colors.black,
-    fontSize: 30,
+    fontSize: 22,
     padding: 14,
     textAlign: 'center',
-    letterSpacing: 10,
+    letterSpacing: 8,
     borderRadius: 3,
-  },
-  button: {
-    backgroundColor: Colors.black,
-    justifyContent: 'center',
-  },
-  buttonText: {
-    color: Colors.white,
-    fontSize: 20,
-    textAlign: 'center',
-    fontWeight: '700',
   },
 });
