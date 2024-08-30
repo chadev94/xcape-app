@@ -38,6 +38,6 @@ export const currentThemeState = atom({
     startDate: new Date(),
     progress: 0,
     hintCount: 0,
-    usedTagIdList: [],
+    tagIdList: [],
   },
 });
