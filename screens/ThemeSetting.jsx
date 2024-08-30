@@ -50,19 +50,35 @@ const ThemeSetting = ({navigation}) => {
         tag => tag.themeId === currentThemeId,
       );
 
-      // const hintListByThemeId = viewList.map(view => view.type === 'HINT' &&);
+      const tagIdList = tagListByThemeId.map(tag => {
+        return {id: tag.id, isUsed: false};
+      });
 
       getValue(`/gameStatus/theme-${currentThemeId}`).then(theme => {
         if (theme) {
-          setCurrentTheme({...theme, runningTime});
-          setItem('themeId', currentThemeId.toString()).then(() => {
-            navigation.navigate('Home');
-          });
-        } else {
-          const usedTagIdList = tagListByThemeId.map(tag => {
-            return {id: tag.id, isUsed: false};
-          });
+          const newTagIdList = Object.assign([], tagIdList, theme.tagIdList);
 
+          const usedTagList = newTagIdList.filter(tag => tag.isUsed);
+          const progress = (usedTagList.length / tagListByThemeId.length) * 100;
+
+          setCurrentTheme({
+            ...theme,
+            tagIdList: newTagIdList,
+            progress,
+            runningTime,
+          });
+          setValue(`/gameStatus/theme-${currentThemeId}`, {
+            ...theme,
+            tagIdList: newTagIdList,
+            progress,
+          })
+            .then(() => {
+              return setItem('themeId', currentThemeId.toString());
+            })
+            .then(() => {
+              navigation.navigate('Home');
+            });
+        } else {
           const value = {
             id: currentThemeId,
             merchantId: currentMerchantId,
@@ -71,7 +87,7 @@ const ThemeSetting = ({navigation}) => {
             isPlaying: false,
             hintCount: 0,
             progress: 0,
-            usedTagIdList,
+            tagIdList,
           };
 
           setValue(`/gameStatus/theme-${currentThemeId}`, value)

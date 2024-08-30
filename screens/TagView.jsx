@@ -15,12 +15,12 @@ const TagView = props => {
   const {setLoading} = useInitialLoading();
 
   useEffect(() => {
-    const findByTagId = currentTheme.usedTagIdList.find(
+    const findByTagId = currentTheme.tagIdList.find(
       usedTag => usedTag.id === tagId,
     );
 
     if (!findByTagId.isUsed) {
-      const newUsedTagIdList = currentTheme.usedTagIdList.map(tag =>
+      const newTagIdList = currentTheme.tagIdList.map(tag =>
         tag.id === tagId ? {...tag, isUsed: true} : tag,
       );
 
@@ -28,14 +28,13 @@ const TagView = props => {
         tag => tag.themeId === currentTheme.id,
       );
 
-      const usedTagList = newUsedTagIdList.filter(tag => tag.isUsed);
+      const usedTagList = newTagIdList.filter(tag => tag.isUsed);
       const progress = (usedTagList.length / tagListByThemeId.length) * 100;
 
       const newThemeValue = {
         ...currentTheme,
-        usedTagIdList: newUsedTagIdList,
+        tagIdList: newTagIdList,
         progress,
-        // hintCount,
       };
       setCurrentTheme({...newThemeValue});
       setValue(`/gameStatus/theme-${currentTheme.id}`, newThemeValue);

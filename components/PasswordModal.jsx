@@ -13,8 +13,8 @@ import {Action, usePasswordModal} from '../context/PasswordModalContext';
 import {Colors} from '../Colors';
 import {useNavigation} from '@react-navigation/native';
 import {setValue} from '../plugins/firebase';
-import {useRecoilState} from 'recoil';
-import {currentThemeState} from '../atoms';
+import {useRecoilState, useRecoilValue} from 'recoil';
+import {currentThemeState, tagListState} from '../atoms';
 import ResetIcon from './icons/ResetIcon';
 import MenuIcon from './icons/MenuIcon';
 import EyeIcon from './icons/EyeIcon';
@@ -28,6 +28,7 @@ const PasswordModal = () => {
   const {passwordModalVisible, closePasswordModal, action} = usePasswordModal();
   const [currentTheme, setCurrentTheme] = useRecoilState(currentThemeState);
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const tagList = useRecoilValue(tagListState);
 
   const validatePassword = password => {
     return password === '5772';
@@ -35,7 +36,11 @@ const PasswordModal = () => {
 
   const resetGame = () => {
     if (currentTheme.id > 0 && currentTheme.merchantId > 0) {
-      const resetUsedTagList = currentTheme.usedTagIdList?.map(({id}) => {
+      const tagListByThemeId = tagList.filter(
+        tag => tag.themeId === currentTheme.id,
+      );
+
+      const tagIdList = tagListByThemeId.map(({id}) => {
         return {id, isUsed: false};
       });
 
@@ -44,7 +49,7 @@ const PasswordModal = () => {
         isPlaying: false,
         hintCount: 0,
         progress: 0,
-        usedTagIdList: resetUsedTagList,
+        tagIdList,
       };
       setValue(`/gameStatus/theme-${currentTheme.id}`, {
         ...resetThemeValue,
