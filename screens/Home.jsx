@@ -13,7 +13,7 @@ import {getItem, hasInitialData} from '../plugins/storage';
 import ProgressBar from '../components/ProgressBar';
 import Controller from '../components/Controller';
 import {Colors} from '../Colors';
-import {getOnValue} from '../plugins/firebase';
+import {getOnValue, getValue} from '../plugins/firebase';
 import Loading from './Loading';
 import TagModal from '../components/TagModal';
 import PasswordModal from '../components/PasswordModal';
@@ -40,19 +40,22 @@ export default function Home({navigation}) {
         getItem('hintList').then(res => setHintList(JSON.parse(res)));
         getItem('tagList').then(res => setTagList(JSON.parse(res)));
         getItem('viewList').then(res => setViewList(JSON.parse(res)));
-        getItem('themeId').then(themeId => {
-          return getOnValue(`/gameStatus/theme-${themeId}`, theme => {
-            if (theme) {
-              setCurrentTheme(() => {
-                setLoading(false);
-                return {...currentTheme, ...theme};
-              });
-            } else {
-              setLoading(false);
-            }
-          });
+        getItem('themeId').then(async themeId => {
+          const gameStatusByThemeId = await getValue(
+            `/gameStatus/theme-${themeId}`,
+          );
+          setCurrentTheme({...gameStatusByThemeId});
+          setLoading(false);
         });
       }
+    });
+    getOnValue('/gameStatus', gameStatus => {
+      getItem('themeId').then(async themeId => {
+        const gameStatusByThemeId = await gameStatus[`theme-${themeId}`];
+        if (gameStatusByThemeId) {
+          setCurrentTheme({...gameStatusByThemeId});
+        }
+      });
     });
   }, []);
 

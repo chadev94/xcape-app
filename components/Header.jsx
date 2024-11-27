@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import Timer from './Timer';
 import {Colors} from '../Colors';
 import {useRecoilValue} from 'recoil';
