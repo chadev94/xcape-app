@@ -202,7 +202,15 @@ const ThemeSetting = ({navigation}) => {
             setHintList,
             setTagList,
             setViewList,
-          ).then(() => setSynchronizing(false));
+          )
+            .then(() => setSynchronizing(false))
+            .catch(() => {
+              ToastAndroid.show(
+                '네트워크를 확인해 주세요.',
+                ToastAndroid.SHORT,
+              );
+              setSynchronizing(false);
+            });
         }}>
         <View style={{flexDirection: 'row'}}>
           <PretendardText style={styles.buttonText}>
