@@ -19,7 +19,7 @@ export const setValue = async (ref, value) => {
     .catch(console.error);
 };
 
-export const getOnValue = async (ref, callback) => {
+export const getOnValue = (ref, callback) => {
   return database()
     .ref(ref)
     .on('value', snapshot => {

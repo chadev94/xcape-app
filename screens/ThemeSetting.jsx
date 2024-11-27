@@ -90,6 +90,7 @@ const ThemeSetting = ({navigation}) => {
             tagIdList,
           };
 
+          setCurrentTheme({...currentTheme, ...value});
           setValue(`/gameStatus/theme-${currentThemeId}`, value)
             .then(() => {
               return setItem('themeId', currentThemeId.toString());
@@ -97,7 +98,6 @@ const ThemeSetting = ({navigation}) => {
             .then(() => {
               navigation.navigate('Home');
             });
-          setCurrentTheme({...value});
         }
       });
     } else {
@@ -130,7 +130,7 @@ const ThemeSetting = ({navigation}) => {
         {treeList &&
           treeList.map(merchant => {
             return (
-              <View key={merchant.id} style={styles.content}>
+              <View key={'merchant-' + merchant.id} style={styles.content}>
                 <PretendardText style={styles.label}>
                   {merchant.name}
                 </PretendardText>
@@ -140,7 +140,7 @@ const ThemeSetting = ({navigation}) => {
                       merchant.themeList.map(theme => {
                         return (
                           <TouchableOpacity
-                            key={theme.id + 1000}
+                            key={'theme-' + theme.id}
                             style={
                               currentThemeId === theme.id
                                 ? {

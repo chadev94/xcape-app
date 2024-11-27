@@ -10,7 +10,9 @@ const List = ({list, onPress, displayName, previewVisible, previewOnPress}) => {
     <View style={styles.container}>
       {list.map(item => {
         return (
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <View
+            key={item.id}
+            style={{flexDirection: 'row', alignItems: 'center'}}>
             <TouchableOpacity
               key={item.id}
               onPress={() => onPress(item.id)}
