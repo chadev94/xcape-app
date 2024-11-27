@@ -34,14 +34,19 @@ const Download = ({navigation}) => {
       .then(() => {
         ToastAndroid.show(
           Config.ENV + '리소스 다운로드 성공!',
-          ToastAndroid.SHORT,
+          ToastAndroid.LONG,
         );
         navigation.navigate('Home');
         setLoading(false);
       })
       .catch(e => {
         console.error(e);
-        ToastAndroid.show('네트워크를 확인해주세요.', ToastAndroid.SHORT);
+        ToastAndroid.show(
+          '다운로드를 실패했습니다. 네트워크를 확인해주세요.',
+          ToastAndroid.LONG,
+        );
+        navigation.navigate('Home');
+        setLoading(false);
       });
   }, []);
 
