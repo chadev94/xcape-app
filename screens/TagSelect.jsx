@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {StyleSheet, ScrollView, View, ToastAndroid} from 'react-native';
+import {ScrollView, StyleSheet, ToastAndroid, View} from 'react-native';
 import {useRecoilValue} from 'recoil';
 import {tagListState, themeListState, viewListState} from '../atoms';
 import {useTagModal} from '../context/TagModalContext';
@@ -9,6 +9,7 @@ import List from '../components/List';
 import {Colors} from '../Colors';
 import PretendardText from '../components/PretendardText';
 import {useNavigation} from '@react-navigation/native';
+
 const TagSelect = ({route}) => {
   const tagList = useRecoilValue(tagListState);
   const viewList = useRecoilValue(viewListState);
@@ -29,11 +30,15 @@ const TagSelect = ({route}) => {
     const selectedTag = tagListByThemeId.find(tag => tag.id === tagId);
 
     openTagModal();
-    writeTag(tagId).then(() => {
-      ToastAndroid.show(
-        `"${selectedTheme.nameKo}"의 "${selectedTag.name}"을 입력했습니다.`,
-        ToastAndroid.SHORT,
-      );
+    writeTag(tagId).then(isSuccess => {
+      if (isSuccess) {
+        ToastAndroid.show(
+          `"${selectedTheme.nameKo}"의 "${selectedTag.name}"을 입력했습니다.`,
+          ToastAndroid.SHORT,
+        );
+      } else {
+        ToastAndroid.show('태그 쓰기를 실패했습니다.', ToastAndroid.SHORT);
+      }
       closeTagModal();
     });
   };
