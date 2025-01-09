@@ -43,6 +43,14 @@ const ThemeSetting = ({navigation}) => {
   const [tagList, setTagList] = useRecoilState(tagListState);
   const [currentTheme, setCurrentTheme] = useRecoilState(currentThemeState);
 
+  const handleRunningTime = number => {
+    const time = parseInt(number, 10);
+    if (isNaN(time)) {
+      return;
+    }
+    setRunningTime(time);
+  };
+
   const saveThemeInfo = () => {
     if (!!currentMerchantId && !!currentThemeId && runningTime > 0) {
       const findTheme = themeList.find(theme => theme.id === currentThemeId);
@@ -61,17 +69,15 @@ const ThemeSetting = ({navigation}) => {
           const usedTagList = newTagIdList.filter(tag => tag.isUsed);
           const progress = (usedTagList.length / tagListByThemeId.length) * 100;
 
-          setCurrentTheme({
+          const newCurrentTheme = {
             ...theme,
             tagIdList: newTagIdList,
             progress,
             runningTime,
-          });
-          setValue(`/gameStatus/theme-${currentThemeId}`, {
-            ...theme,
-            tagIdList: newTagIdList,
-            progress,
-          })
+          };
+
+          setCurrentTheme({...newCurrentTheme});
+          setValue(`/gameStatus/theme-${currentThemeId}`, {...newCurrentTheme})
             .then(() => {
               return setItem('themeId', currentThemeId.toString());
             })
@@ -175,7 +181,7 @@ const ThemeSetting = ({navigation}) => {
           <View style={styles.input}>
             <TextInput
               style={styles.timeInput}
-              onChangeText={time => setRunningTime(parseInt(time, 10))}
+              onChangeText={number => handleRunningTime(number)}
               defaultValue={runningTime.toString()}
               inputMode="decimal"
               keyboardType="numeric"
