@@ -81,8 +81,8 @@ android {
         applicationId "com.xcape.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 9
-        versionName "1.8"
+        versionCode 10
+        versionName "1.9"
         resValue "string", "build_config_package", "com.xcape.app"
     }
     signingConfigs {
