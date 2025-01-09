@@ -22,7 +22,9 @@ export const writeTag = async tagId => {
     if (bytes) {
       await NfcManager.ndefHandler.writeNdefMessage(bytes);
     }
+    return true;
   } catch (ex) {
+    return false;
   } finally {
     await NfcManager.cancelTechnologyRequest();
   }

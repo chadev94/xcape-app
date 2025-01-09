@@ -86,7 +86,6 @@ export default function Home({navigation}) {
 
     getOnValue('/gameStatus', gameStatus => {
       getItem('themeId').then(async themeId => {
-        console.log(themeId);
         const gameStatusByThemeId = await gameStatus[`theme-${themeId}`];
         if (themeId && gameStatusByThemeId) {
           setCurrentTheme({...gameStatusByThemeId});
